@@ -1,0 +1,12 @@
+- Home feed comes from the sidecar /api/home?gl=<country> (YouTube Music charts per country, cached 30 min); the client detects the country by IP with a browser-language fallback — keeps home regional without accounts.
+- Playback state lives in a single PlayerProvider (src/context/player.tsx) owning one audio element + queue; UI components call usePlayer() instead of passing track props — keeps mini/full player and lists in sync.
+- Videoclips play in one persistent chrome-less YouTube IFrame (`src/components/video-layer.tsx`) that preloads muted in sync with the audio and floats over the full player's `[data-video-slot]`; pairing comes from the memoized `/api/counterpart` lookup — instant audio/video switching with YURA's own controls.
+- Track credits retain every official YouTube Music artist as structured `{name,id}` entries — each collaborator must open their own profile.
+- Horizontally browsable shelves use the shared native-scroll carousel with hidden scrollbars — keeps mouse, button, and touch navigation consistent.
+- Search returns `{top, tracks, videos, albums, artists}` scored by query-token coverage of title+artists — keeps songs, albums and artist profiles findable from mixed queries.
+- Downloads are stored per device in IndexedDB via `src/services/downloads.ts` (sidecar `/api/download/:id?kind=audio|video`) — works offline in web and Tauri without native plugins.
+- Library data (recents, favorites, playlists, recent searches) lives in `src/services/library.ts` (localStorage + useSyncExternalStore) — device-local without accounts, shared by sidebar and views.
+- Main pages are a single `View` union (`src/lib/view.ts`) owned by App; full player/album/artist are overlays on top — one source of truth for sidebar highlighting.
+- Upcoming and current songs are buffered in Cache Storage via `src/services/stream-cache.ts` (LRU by size) and played from blob URLs when present — gapless skips and offline continuity.
+- In Tauri, every Google/YouTube image URL is rewritten to the sidecar `/api/img` proxy (host allow-list, disk cache) — the desktop webview's tracking prevention blocks those hosts.
+- Mobile packages share the React app through Capacitor while Tauri remains the desktop shell; phone-only navigation and safe areas stay in responsive components — avoids duplicating product logic across platforms.

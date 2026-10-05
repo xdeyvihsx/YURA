@@ -1,0 +1,28 @@
+{
+  "name": "sidecar-app",
+  "module": "index.js",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "start": "node index.js",
+    "dev": "node index.js",
+    "build": "pkg index.js --targets node18-win-x64,node18-linux-x64,node18-macos-x64 --output ../src-tauri/bin/server"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "@types/node": "^26.6.4",
+    "pkg": "^5.8.1"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "dependencies": {
+    "cors": "^2.8.6",
+    "express": "^5.2.1",
+    "youtubei.js": "^18.1.0"
+  },
+  "pkg": {
+    "targets": ["node18-win-x64", "node18-linux-x64", "node18-macos-x64"],
+    "outputPath": "../src-tauri/bin"
+  }
+}
