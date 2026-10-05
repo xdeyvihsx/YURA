@@ -1,6 +1,7 @@
 // Tauri talks to the local sidecar; in a browser the music server lives on the same address.
 export const IS_TAURI = typeof window !== 'undefined' && '__TAURI_INTERNALS__' in window;
-const BACKEND_URL = IS_TAURI ? 'http://localhost:3000' : '';
+// Use Vercel backend URL from env var, fallback to localhost for desktop, relative for web
+const BACKEND_URL = import.meta.env.VITE_API_URL || (IS_TAURI ? 'http://localhost:3000' : '');
 
 const IMG_HOST = /^https:\/\/([\w-]+\.)*(googleusercontent\.com|ggpht\.com|ytimg\.com)\//;
 /** The desktop webview blocks Google image hosts (tracking prevention), so images go through the local server there. */
