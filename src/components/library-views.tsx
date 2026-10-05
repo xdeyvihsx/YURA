@@ -5,6 +5,7 @@ import { ArtistLinks } from '@/components/artist-links';
 import { DownloadButton } from '@/components/download-button';
 import { TrackActions } from '@/components/track-actions';
 import { formatTime } from '@/components/mini-player';
+import { Button } from '@/components/ui/button';
 import { getPodcasts, type Track } from '@/services/youtube';
 import { removeFromPlaylist, removeSearch, useLibrary } from '@/services/library';
 
